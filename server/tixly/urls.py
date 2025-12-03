@@ -26,8 +26,8 @@ urlpatterns = [
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
     
     # Social authentication
-    path('api/auth/social/', include('dj_rest_auth.urls')),
 
+    path('api/auth/',include('accounts.urls')),
     path('api/organizers/',include('organizers.urls')),
     path('api/attendee/',include('attendee.urls')),
 

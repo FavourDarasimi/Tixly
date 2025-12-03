@@ -152,6 +152,31 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+CUSTOM_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
+
+REST_AUTH = {
+    # Enable JWT authentication
+    'USE_JWT': True,
+    
+    # Cookie names for JWT tokens
+    'JWT_AUTH_COOKIE': 'tixly-auth-token',  # Name for access token cookie
+    'JWT_AUTH_REFRESH_COOKIE': 'tixly-refresh-token',  # Name for refresh token cookie
+    
+    # Cookie settings
+    'JWT_AUTH_HTTPONLY': True,  # Makes cookies inaccessible to JavaScript (XSS protection)
+    'JWT_AUTH_SECURE': False,  # Set to True in production (requires HTTPS)
+    'JWT_AUTH_SAMESITE': 'Lax',  # CSRF protection ('Lax', 'Strict', or 'None')
+    
+    # Optional: Return token in response body as well as cookie
+    'JWT_AUTH_RETURN_EXPIRATION': True,
+    
+    # Serializers (customize as needed)
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+    # 'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+}
+
+
 from datetime import timedelta
 
 SIMPLE_JWT = {
@@ -159,14 +184,33 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': True,
+    
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    
     'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
 ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_SIGNUP_FIELDS = [
+    'email*',
+    'password1*',
+    'password2*',
+    'first_name',   # Optional field
+    'last_name',    # Optional field
+]
 
 # Social account settings
 SOCIALACCOUNT_AUTO_SIGNUP = True
