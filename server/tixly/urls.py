@@ -20,18 +20,21 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, Sp
 
 
 urlpatterns = [
+    # Admin site
     path('admin/', admin.site.urls),
 
-    path('api/auth/', include('dj_rest_auth.urls')),
-    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
+
+    path('api/auth/', include('djoser.urls')),
     
-    # Social authentication
 
-    path('api/auth/',include('accounts.urls')),
-    path('api/organizers/',include('organizers.urls')),
-    path('api/attendee/',include('attendee.urls')),
+    path('api/auth/', include('djoser.urls.jwt')),
+    
+    # Your application endpoints
+    path('api/organizers/', include('organizers.urls')),
+    path('api/attendee/', include('attendee.urls')),
 
-     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # API Documentation
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
