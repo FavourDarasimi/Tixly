@@ -27,7 +27,7 @@ const Button = ({ children, onClick, className, size, type }: ButtonProps) => {
   } else if (type === "secondary") {
     return (
       <button
-        className={`border-[#E2E8F0] border  ${sizeClasses[size]} rounded-lg   hover:scale-105 transition duration-300 cursor-pointer ${className}`}
+        className={`border-gray-400 border  ${sizeClasses[size]} rounded-lg   hover:scale-105 transition duration-300 cursor-pointer ${className}`}
         onClick={onClick}
       >
         {children}

@@ -13,16 +13,16 @@ const Navbar = () => {
       </div>
       <ul className="flex gap-10 text-[#3a3a3a] text-lg">
         <li className="hover:text-black cursor-pointer transition duration-300">
-          About
-        </li>
-        <li className="hover:text-black cursor-pointer transition duration-300">
-          Trending
+          Browse Events
         </li>
         <li className="hover:text-black cursor-pointer transition duration-300">
           How it Works
         </li>
         <li className="hover:text-black cursor-pointer transition duration-300">
           Features
+        </li>
+        <li className="hover:text-black cursor-pointer transition duration-300">
+          FAQs
         </li>
       </ul>
       <Button type="primary" size="medium">

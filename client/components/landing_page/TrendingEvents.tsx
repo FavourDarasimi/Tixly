@@ -75,11 +75,28 @@ const MOCK_EVENTS = [
 
 const TrendingEvents = () => {
   return (
-    <div className="max-w-7xl xl:max-w-[1500px] mx-auto px-4 py-12 ">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">Upcoming Events</h2>
+    <section className="max-w-7xl xl:max-w-[1500px] mx-auto px-4 py-14">
+      {/* Section Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h2 className="text-4xl font-bold text-gray-900">Upcoming Events</h2>
+          <p className="text-gray-600 mt-1 text-lg">
+            Discover what’s happening near you and plan ahead.
+          </p>
+        </div>
 
+        {/* View All */}
+        <a
+          href="/events"
+          className="text-sm font-semibold text-[#FF5722] hover:underline"
+        >
+          View all →
+        </a>
+      </div>
+
+      {/* Events Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {MOCK_EVENTS.map((event) => (
+        {MOCK_EVENTS.slice(0, 8).map((event) => (
           <EventCard
             key={event.id}
             id={event.id}
@@ -95,7 +112,14 @@ const TrendingEvents = () => {
           />
         ))}
       </div>
-    </div>
+
+      {/* Empty State */}
+      {MOCK_EVENTS.length === 0 && (
+        <div className="text-center py-16 text-gray-500">
+          No upcoming events yet. Check back soon!
+        </div>
+      )}
+    </section>
   );
 };
 

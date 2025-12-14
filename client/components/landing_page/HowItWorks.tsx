@@ -113,10 +113,10 @@ const HowItWorks: React.FC = () => {
       <div className="max-w-7xl xl:max-w-[1500px] mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+          <h2 className="text-4xl  font-bold text-slate-900 mb-4">
             How Tixly Works
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mb-10">
+          <p className="text-lg text-slate-600  mb-10">
             A seamless experience built for both the people partying and the
             people planning.
           </p>
@@ -133,7 +133,7 @@ const HowItWorks: React.FC = () => {
 
             <button
               onClick={() => handleToggle("attendee")}
-              className={`relative z-10 w-[140px] py-2.5 text-sm font-semibold transition-colors ${
+              className={`cursor-pointer relative z-10 w-[140px] py-2.5 text-sm font-semibold transition-colors ${
                 userType === "attendee" ? "text-slate-900" : "text-slate-500"
               }`}
             >
@@ -142,7 +142,7 @@ const HowItWorks: React.FC = () => {
 
             <button
               onClick={() => handleToggle("organizer")}
-              className={`relative z-10 w-[140px] py-2.5 text-sm font-semibold transition-colors ${
+              className={`cursor-pointer relative z-10 w-[140px] py-2.5 text-sm font-semibold transition-colors ${
                 userType === "organizer" ? "text-slate-900" : "text-slate-500"
               }`}
             >
