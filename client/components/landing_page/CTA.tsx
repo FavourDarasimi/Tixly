@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const CTA = () => {
   return (
     <section className="relative overflow-hidden py-24">
@@ -17,21 +19,11 @@ const CTA = () => {
         </p>
 
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <a
-            href="/events"
-            className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-base font-semibold text-[#FF5722] shadow-lg hover:bg-slate-100 transition"
-          >
-            Find Events
-          </a>
-
-          <a
-            href="/create-event"
-            className="inline-flex items-center justify-center rounded-full border border-white/70 px-8 py-4 text-base font-semibold text-white hover:bg-white/10 transition"
-          >
-            Create an Event
-          </a>
-        </div>
+        <Link href="/join">
+          <p className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-base font-semibold text-[#FF5722] shadow-lg hover:bg-slate-100 transition">
+            Get Started
+          </p>
+        </Link>
       </div>
     </section>
   );

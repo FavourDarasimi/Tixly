@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import hero_section from "@/public/images/hero-section.png";
 import Button from "@/components/Button";
 const HeroSection = () => {
@@ -22,9 +23,11 @@ const HeroSection = () => {
           analytics and QR check-ins
         </h2>
         <div className="flex gap-3">
-          <Button size="large" type="primary">
-            Get Started
-          </Button>
+          <Link href="/join">
+            <Button size="large" type="primary">
+              Get Started
+            </Button>
+          </Link>
           <Button size="large" type="secondary">
             Browse Events
           </Button>

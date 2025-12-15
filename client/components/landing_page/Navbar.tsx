@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Button from "./Button";
+import Button from "../Button";
 import icon from "@/public/images/tixly-icon.png";
 import Link from "next/link";
 
