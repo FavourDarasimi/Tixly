@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import Link from "next/link";
 import Button from "@/components/Button";
-import { login } from "@/lib/api";
+import { login } from "@/lib/auth-api/api";
 import { useRouter } from "next/navigation";
 
 const Login = () => {

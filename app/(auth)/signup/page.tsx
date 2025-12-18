@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User, CalendarDays, Eye, EyeOff } from "lucide-react";
-import { signup } from "@/lib/api";
+import { signup } from "@/lib/auth-api/api";
 import Button from "@/components/Button";
 
 const Signup = () => {

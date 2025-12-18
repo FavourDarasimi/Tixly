@@ -1,8 +1,8 @@
-const BASEURL = "http://localhost:8000";
+const BASEURL = "http://localhost:8000/api";
 
 export async function signup(formData: any) {
   try {
-    const response = await fetch(`${BASEURL}/api/auth/users/`, {
+    const response = await fetch(`${BASEURL}/auth/users/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export async function signup(formData: any) {
 
 export async function login(formData: any) {
   try {
-    const response = await fetch(`${BASEURL}/api/auth/jwt/create/`, {
+    const response = await fetch(`${BASEURL}/auth/jwt/create/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export async function login(formData: any) {
 
 export async function activateAccount(uid: string, token: string) {
   try {
-    const response = await fetch(`${BASEURL}/api/auth/users/activation/`, {
+    const response = await fetch(`${BASEURL}/auth/users/activation/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ uid, token }),
@@ -63,14 +63,11 @@ export async function activateAccount(uid: string, token: string) {
 
 export async function resendActivation(email: string) {
   try {
-    const response = await fetch(
-      `${BASEURL}/api/auth/users/resend_activation/`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      }
-    );
+    const response = await fetch(`${BASEURL}/auth/users/resend_activation/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

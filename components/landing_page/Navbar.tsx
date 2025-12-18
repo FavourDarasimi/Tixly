@@ -59,9 +59,11 @@ const Navbar = () => {
           FAQs
         </li>
       </ul>
-      <Button type="primary" size="medium" className="rounded-lg">
-        Log in
-      </Button>
+      <Link href="/login">
+        <Button type="primary" size="medium" className="rounded-lg">
+          Log in
+        </Button>
+      </Link>
     </nav>
   );
 };

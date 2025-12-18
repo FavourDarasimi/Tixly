@@ -1,6 +1,7 @@
 import React from "react";
 import eventimg from "@/public/images/wmremove-transformed.webp";
 import EventCard from "../EventsCard";
+import { getEvents } from "@/lib/event-api/api";
 
 const MOCK_EVENTS = [
   {
@@ -73,7 +74,9 @@ const MOCK_EVENTS = [
   },
 ];
 
-const TrendingEvents = () => {
+const TrendingEvents = async () => {
+  const data = await getEvents();
+  console.log(data);
   return (
     <section className="max-w-7xl xl:max-w-[1500px] mx-auto px-4 py-14">
       {/* Section Header */}

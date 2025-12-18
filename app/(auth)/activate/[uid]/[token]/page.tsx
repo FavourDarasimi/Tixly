@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { CheckCircle, XCircle, Loader2, Mail } from "lucide-react";
 import Link from "next/link";
-import { activateAccount, resendActivation } from "@/lib/api";
+import { activateAccount, resendActivation } from "@/lib/auth-api/api";
 import Button from "@/components/Button";
 
 type ActivationStatus = "loading" | "success" | "error" | "expired";
