@@ -9,31 +9,15 @@ const HomeHeader = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-20">
-      {/* Welcome Badge */}
-      {user && (
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center gap-2 border border-orange-200 rounded-full px-5 py-2">
-            <span className=" text-sm font-medium">
+    <div className="max-w-7xl xl:max-w-[1500px]">
+      <div className="flex justify-between">
+        <div>
+          {user && (
+            <h1 className=" text-xl font-medium">
               👋 Welcome back, {user.first_name}!
-            </span>
-          </div>
+            </h1>
+          )}
         </div>
-      )}
-
-      {/* Hero Text*/}
-      <div className="text-center mb-10 max-w-4xl mx-auto">
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">
-          Discover Events You'll Love
-        </h1>
-        <p className="text-lg text-gray-600 leading-relaxed">
-          Explore concerts, sports, workshops, and experiences near you. Book
-          tickets instantly and manage everything in one place.
-        </p>
-      </div>
-
-      {/* Search Bar */}
-      <div className="max-w-2xl mx-auto">
         <div className="flex gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -50,6 +34,33 @@ const HomeHeader = () => {
           </button>
         </div>
       </div>
+
+      {/* Welcome Badge */}
+      {/* {user && (
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex items-center gap-2 border border-orange-200 rounded-full px-5 py-2">
+            <span className=" text-sm font-medium">
+              👋 Welcome back, {user.first_name}!
+            </span>
+          </div>
+        </div>
+      )} */}
+
+      {/* Hero Text*/}
+      {/* <div className="text-center mb-10 max-w-4xl mx-auto">
+        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">
+          Discover Events You'll Love
+        </h1>
+        <p className="text-lg text-gray-600 leading-relaxed">
+          Explore concerts, sports, workshops, and experiences near you. Book
+          tickets instantly and manage everything in one place.
+        </p>
+      </div> */}
+
+      {/* Search Bar */}
+      {/* <div className="max-w-2xl mx-auto">
+       
+      </div> */}
     </div>
   );
 };

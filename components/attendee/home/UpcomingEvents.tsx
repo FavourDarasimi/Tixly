@@ -65,7 +65,7 @@ const UpcomingEvents = async ({ upcomingEvents }: EventArray) => {
                 className="group bg-white border-2 border-orange-200 rounded-2xl overflow-hidden hover:shadow-lg transition-all"
               >
                 <div className="flex gap-5 p-6">
-                  <div className="w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
+                  <div className="w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-gray-100">
                     <Image
                       src={eventimg}
                       alt={event.title}

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Search,
   Bell,
@@ -23,12 +23,39 @@ const AttendeeNavbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { user } = useAuth();
+  const navRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
 
+  const image = "https://i.pravatar.cc/150?img=59";
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen || isProfileOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuOpen, isProfileOpen]);
+
   return (
-    <nav className="p-4 flex justify-between items-center fixed w-full top-0 bg-white z-50 shadow-md">
+    <nav
+      ref={navRef}
+      className="p-4 flex justify-between items-center fixed w-full top-0 bg-white z-50 shadow-md"
+    >
       <div className="w-full">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -71,16 +98,16 @@ const AttendeeNavbar = () => {
 
             {/* Profile Dropdown */}
             <div className="relative">
-              <div className="flex items-center gap-2 p-1 rounded-full  transition-colors">
-                <Image
-                  src="https://i.pravatar.cc/150?img=59"
-                  alt={user ? user.first_name : ""}
-                  fill
-                  className="w-9 h-9 rounded-full border-2 border-gray-200"
-                />
-                <p className="text-sm text-gray-900">
-                  {user?.first_name} {user?.last_name}
-                </p>
+              <div className=" flex items-center gap-2 p-1 rounded-full  transition-colors">
+                <div className="relative w-9 h-9">
+                  <Image
+                    src={image}
+                    fill
+                    alt={user ? user.first_name : ""}
+                    className=" rounded-full border-2 border-gray-200"
+                  />
+                </div>
+                <p className="text-sm text-gray-900">{user?.username}</p>
                 {isProfileOpen ? (
                   <ChevronUp
                     onClick={toggleProfile}

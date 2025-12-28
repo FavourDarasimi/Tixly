@@ -59,9 +59,13 @@ export async function getTrendingEvents() {
 
 export async function getUpcomingEvents() {
   try {
-    // Get events happening in the next 24 hours
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("access_token")
+        : null;
     const response = await fetch(`${BASEURL}/events/upcoming/`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

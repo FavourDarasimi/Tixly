@@ -1,7 +1,10 @@
+// contexts/AuthContext.tsx or wherever your auth context is
+
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie"; // Make sure to install: npm install js-cookie @types/js-cookie
 
 interface User {
   id: string;
@@ -14,8 +17,6 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  accessToken: string | null;
-  refreshToken: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
@@ -26,41 +27,54 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  // Load user data from localStorage on mount
+  // Check if user is authenticated on mount
   useEffect(() => {
-    const loadUserData = () => {
-      try {
-        const storedUser = localStorage.getItem("user");
-        const storedAccessToken = localStorage.getItem("access_token");
-        const storedRefreshToken = localStorage.getItem("refresh_token");
+    const checkAuth = async () => {
+      const accessToken = Cookies.get("access_token");
 
-        if (storedUser && storedAccessToken) {
-          setUser(JSON.parse(storedUser));
-          setAccessToken(storedAccessToken);
-          setRefreshToken(storedRefreshToken);
+      if (accessToken) {
+        try {
+          // Fetch user details
+          const response = await fetch(
+            "http://localhost:8000/api/auth/users/me/",
+            {
+              credentials: "include", // Send cookies
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          } else {
+            // Token invalid, clear cookies
+            Cookies.remove("access_token");
+            Cookies.remove("refresh_token");
+          }
+        } catch (error) {
+          console.error("Auth check error:", error);
         }
-      } catch (error) {
-        console.error("Error loading user data:", error);
-      } finally {
-        setIsLoading(false);
       }
+
+      setIsLoading(false);
     };
 
-    loadUserData();
+    checkAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
       const BASEURL = "http://localhost:8000/api";
 
-      // Step 1: Get JWT tokens
+      // Step 1: Get JWT tokens (this will set cookies)
       const loginResponse = await fetch(`${BASEURL}/auth/jwt/create/`, {
         method: "POST",
+        credentials: "include", // IMPORTANT: Receive cookies
         headers: {
           "Content-Type": "application/json",
         },
@@ -74,13 +88,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const { access, refresh } = await loginResponse.json();
 
-      // Step 2: Get user details
+      console.log("✅ Login successful, cookies should be set");
+      console.log("Check DevTools → Application → Cookies");
+
+      // Step 2: Get user details using the token
       const userResponse = await fetch(`${BASEURL}/auth/users/me/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${access}`,
-        },
+        credentials: "include", // Send cookies
       });
 
       if (!userResponse.ok) {
@@ -88,17 +101,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       const userData = await userResponse.json();
-
-      // Step 3: Store tokens and user data
-      localStorage.setItem("access_token", access);
-      localStorage.setItem("refresh_token", refresh);
-      localStorage.setItem("user", JSON.stringify(userData));
-
-      setAccessToken(access);
-      setRefreshToken(refresh);
       setUser(userData);
 
-      // Step 4: Redirect based on role
+      // Step 3: Redirect based on role
       if (userData.role === "attendee") {
         router.push("/home");
       } else if (userData.role === "organizer") {
@@ -112,24 +117,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("user");
-    setUser(null);
-    setAccessToken(null);
-    setRefreshToken(null);
-    router.push("/login");
+  const logout = async () => {
+    try {
+      // Call logout endpoint to clear cookies on server
+      await fetch("http://localhost:8000/api/auth/logout/", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      // Clear cookies on client side too
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+      setUser(null);
+      router.push("/login");
+    }
   };
 
   const value = {
     user,
-    accessToken,
-    refreshToken,
     login,
     logout,
     isLoading,
-    isAuthenticated: !!user && !!accessToken,
+    isAuthenticated: !!user,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
