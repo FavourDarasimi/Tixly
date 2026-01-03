@@ -123,3 +123,47 @@ export async function getEventDetails(id: string) {
     throw error;
   }
 }
+
+export async function getAttendeeEvents(cookieString?: string) {
+  try {
+    const response = await fetch(`${BASEURL}/attendee/events/`, {
+      method: "GET",
+      credentials: "include", // ✅ Always include for authenticated requests
+      headers: {
+        ...(cookieString ? { Cookie: cookieString } : {}),
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw errorData;
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getUserEventTicket(id: number, cookieString?: string) {
+  try {
+    const response = await fetch(`${BASEURL}/event/${id}/ticket/`, {
+      method: "GET",
+      credentials: "include", // ✅ Always include for authenticated requests
+      headers: {
+        ...(cookieString ? { Cookie: cookieString } : {}),
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw errorData;
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+}
