@@ -2,7 +2,11 @@
 "use client";
 
 import { useState } from "react";
-import { Link2, Check, MessageCircle, X, Facebook } from "lucide-react";
+import { Link2, Check } from "lucide-react";
+import X from "@/public/twitter.png";
+import Whatsapp from "@/public/whatsapp.png";
+import Facebook from "@/public/facebook.png";
+import Image from "next/image";
 
 interface ShareEventCardProps {
   eventTitle: string;
@@ -33,7 +37,7 @@ const ShareEventCard = ({ eventTitle, eventUrl }: ShareEventCardProps) => {
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(eventUrl);
     setCopied(true);
-    setTimeout(() => setCopied(false), 1000);
+    setTimeout(() => setCopied(false), 3000);
   };
 
   return (
@@ -42,45 +46,43 @@ const ShareEventCard = ({ eventTitle, eventUrl }: ShareEventCardProps) => {
       <h3 className="font-semibold text-xl mb-6">Share this event</h3>
 
       {/* Buttons */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-7 justify-center">
         {/* Facebook - FB */}
         <button
           onClick={() => openShare(shareUrls.facebook)}
-          className="flex items-center justify-center min-w-[72px] h-12 bg-[#1877F2] hover:bg-[#166fe5] text-white rounded-full font-bold text-sm transition-colors px-6"
+          className="relative w-12 h-12 cursor-pointer"
         >
-          <Facebook />
+          <Image src={Facebook} fill alt="X_png" />
         </button>
 
         {/* Twitter - TW */}
         <button
           onClick={() => openShare(shareUrls.twitter)}
-          className="flex items-center justify-center min-w-[72px] h-12 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white rounded-full font-bold text-sm transition-colors px-6"
+          className="relative w-12 h-12 cursor-pointer"
         >
-          <X />
+          <Image src={X} fill alt="X_png" />
         </button>
 
         {/* WhatsApp - WA */}
         <button
           onClick={() => openShare(shareUrls.whatsapp)}
-          className="flex items-center justify-center min-w-[72px] h-12 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full font-bold text-sm transition-colors px-6"
+          className="relative w-12 h-12 cursor-pointer"
         >
-          <MessageCircle />
+          <Image src={Whatsapp} fill alt="X_png" />
         </button>
 
         {/* Copy Link */}
         <button
           onClick={copyToClipboard}
-          className="flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+          className="flex items-center justify-center w-12 h-12 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
         >
           {copied ? (
-            <Check className="w-5 h-5 text-green-600" />
+            <Check className="w-5 h-5 " />
           ) : (
             <Link2 className="w-5 h-5" />
           )}
         </button>
       </div>
-
-      {copied && <p className="text-sm text-green-600 mt-3">✓ Link copied!</p>}
     </div>
   );
 };

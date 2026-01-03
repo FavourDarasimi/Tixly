@@ -10,7 +10,7 @@ const EventDetails = async ({
 }) => {
   const { id } = await params;
   const response = await getEventDetails(id);
-  console.log(response);
+
   return (
     <div className="pb-10 min-h-screen">
       <Header data={response} />
